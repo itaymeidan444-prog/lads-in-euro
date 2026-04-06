@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Grand Tour — Europe 2025</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1814;
+    --paper: #f5f0e8;
+    --cream: #ede8dc;
+    --gold: #c9a84c;
+    --gold-light: #e8d49a;
+    --rust: #b85c38;
+    --slate: #4a5568;
+    --muted: #8a8070;
+    --white: #ffffff;
+    --green: #3a7d5a;
+    --red: #b84444;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--ink);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-brand {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: var(--gold);
+    font-size: 18px;
+    letter-spacing: 0.02em;
+  }
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    height: 100%;
+  }
+  .nav-tabs {
+    display: flex;
+    gap: 0;
+    height: 100%;
+  }
+  .nav-tab {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 0 18px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .nav-tab:hover { color: var(--paper); }
+  .nav-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  .edit-toggle {
+    background: none;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 5px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-left: 16px;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .edit-toggle:hover { background: var(--gold); color: var(--ink); }
+  .edit-toggle.editing { background: var(--rust); border-color: var(--rust); color: var(--white); }
+
+  /* PAGES */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* HERO */
+  .hero {
+    background: var(--ink);
+    padding: 4rem 2rem 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 40px,
+      rgba(201,168,76,0.04) 40px,
+      rgba(201,168,76,0.04) 41px
+    );
+  }
+  .hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 6vw, 64px);
+    color: var(--paper);
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+  }
+  .hero h1 em {
+    color: var(--gold);
+    font-style: italic;
+  }
+  .hero-sub {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 2.5rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* COUNTDOWN */
+  .countdown-row {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .countdown-box {
+    text-align: center;
+  }
+  .countdown-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 40px;
+    color: var(--gold);
+    line-height: 1;
+    display: block;
+  }
+  .countdown-label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .countdown-sep {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    color: var(--muted);
+    align-self: flex-start;
+    padding-top: 6px;
+  }
+
+  /* PROGRESS BAR */
+  .progress-section {
+    padding: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--gold-light);
+    opacity: 0.5;
+  }
+
+  /* ROUTE TIMELINE */
+  .route-wrap {
+    padding: 0 2rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .route-scroll {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+    scrollbar-width: none;
+  }
+  .route-scroll::-webkit-scrollbar { display: none; }
+  .route-stop {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 110px;
+    position: relative;
+  }
+  .route-stop:not(:last-child)::after {
+    content: '···';
+    position: absolute;
+    right: -18px;
+    top: 14px;
+    color: var(--gold);
+    font-size: 14px;
+    letter-spacing: 2px;
+  }
+  .route-dot {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    background: var(--paper);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 1;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .route-dot.done { background: var(--gold); }
+  .route-dot.current { background: var(--rust); border-color: var(--rust); box-shadow: 0 0 0 4px rgba(184,92,56,0.2); }
+  .route-dot:hover { transform: scale(1.15); }
+  .route-city {
+    font-size: 11px;
+    font-weight: 500;
+    text-align: center;
+    color: var(--ink);
+    letter-spacing: 0.03em;
+  }
+  .route-days {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* STOP CARDS */
+  .cards-grid {
+    padding: 0 2rem 3rem;
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  .stop-card {
+    background: var(--white);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(201,168,76,0.2);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .stop-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(26,24,20,0.12);
+  }
+  .stop-card.current-card {
+    border-color: var(--rust);
+    box-shadow: 0 0 0 2px rgba(184,92,56,0.15);
+  }
+  .card-header {
+    padding: 16px 16px 12px;
+    border-bottom: 1px solid var(--cream);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .card-flag { font-size: 22px; }
+  .card-city {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 700;
+  }
+  .card-country { font-size: 11px; color: var(--muted); margin-top: 1px; }
+  .card-status {
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .status-upcoming { background: var(--cream); color: var(--muted); }
+  .status-current { background: rgba(184,92,56,0.12); color: var(--rust); }
+  .status-done { background: rgba(58,125,90,0.12); color: var(--green); }
+  .card-body { padding: 12px 16px 16px; }
+  .card-meta {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .card-meta span { display: flex; align-items: center; gap: 4px; }
+  .check-activity {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 4px 0;
+    cursor: pointer;
+  }
+  .check-activity input[type=checkbox] { margin-top: 2px; accent-color: var(--gold); flex-shrink: 0; }
+  .check-activity span { font-size: 12px; color: var(--slate); }
+  .check-activity input:checked + span { text-decoration: line-through; color: var(--muted); }
+  .stay-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--cream);
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 11px;
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  /* BUDGET PAGE */
+  .budget-wrap {
+    padding: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .budget-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 2rem;
+  }
+  .budget-stat {
+    background: var(--white);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    border: 1px solid var(--cream);
+  }
+  .budget-stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+  .budget-stat-value { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--ink); }
+  .budget-stat-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .budget-table {
+    background: var(--white);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--cream);
+  }
+  .budget-row {
+    display: grid;
+    grid-template-columns: 1fr 80px 80px 80px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--cream);
+    align-items: center;
+    font-size: 13px;
+    gap: 8px;
+  }
+  .budget-row:last-child { border-bottom: none; }
+  .budget-row.header {
+    background: var(--ink);
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-bottom: none;
+  }
+  .budget-row:not(.header):hover { background: var(--cream); }
+  .budget-city-name { font-weight: 500; }
+  .budget-city-days { font-size: 11px; color: var(--muted); }
+  .budget-num { text-align: right; font-variant-numeric: tabular-nums; }
+  .budget-bar-wrap { margin-top: 1.5rem; }
+  .budget-bar-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .budget-bar-label { font-size: 12px; width: 120px; flex-shrink: 0; }
+  .budget-bar-track {
+    flex: 1;
+    height: 6px;
+    background: var(--cream);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .budget-bar-fill {
+    height: 100%;
+    background: var(--gold);
+    border-radius: 3px;
+    transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
+  }
+  .budget-bar-val { font-size: 12px; color: var(--muted); width: 50px; text-align: right; }
+
+  /* PACKING PAGE */
+  .packing-wrap {
+    padding: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .packing-progress {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 1.2rem 1.5rem;
+    border: 1px solid var(--cream);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .packing-pct {
+    font-family: 'Playfair Display', serif;
+    font-size: 40px;
+    color: var(--gold);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .packing-bar-track {
+    flex: 1;
+    height: 8px;
+    background: var(--cream);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .packing-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--rust));
+    border-radius: 4px;
+    transition: width 0.4s;
+  }
+  .packing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+  }
+  .packing-cat {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 1rem 1.2rem;
+    border: 1px solid var(--cream);
+  }
+  .packing-cat-title {
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .pack-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 0;
+    cursor: pointer;
+  }
+  .pack-item input[type=checkbox] { accent-color: var(--gold); }
+  .pack-item label {
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .pack-item input:checked + label {
+    text-decoration: line-through;
+    color: var(--muted);
+  }
+
+  /* PHOTO JOURNAL */
+  .journal-wrap {
+    padding: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .add-memory-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--ink);
+    color: var(--gold);
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-bottom: 1.5rem;
+    transition: opacity 0.2s;
+  }
+  .add-memory-btn:hover { opacity: 0.85; }
+  .memory-form {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 1.2rem;
+    border: 1px solid var(--gold-light);
+    margin-bottom: 1.5rem;
+    display: none;
+  }
+  .memory-form.show { display: block; }
+  .form-row { margin-bottom: 10px; }
+  .form-row label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); display: block; margin-bottom: 4px; }
+  .form-row input, .form-row textarea, .form-row select {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--cream);
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    background: var(--paper);
+    color: var(--ink);
+    outline: none;
+  }
+  .form-row input:focus, .form-row textarea:focus, .form-row select:focus {
+    border-color: var(--gold);
+  }
+  .form-row textarea { resize: vertical; min-height: 80px; }
+  .form-actions { display: flex; gap: 8px; margin-top: 12px; }
+  .btn-primary {
+    background: var(--gold);
+    color: var(--ink);
+    border: none;
+    border-radius: 6px;
+    padding: 8px 18px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .btn-secondary {
+    background: none;
+    border: 1px solid var(--cream);
+    border-radius: 6px;
+    padding: 8px 18px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    color: var(--muted);
+  }
+  .memories-list { display: flex; flex-direction: column; gap: 12px; }
+  .memory-card {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 1.2rem;
+    border: 1px solid var(--cream);
+  }
+  .memory-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+  .memory-city { font-family: 'Playfair Display', serif; font-size: 15px; font-style: italic; }
+  .memory-date { font-size: 11px; color: var(--muted); }
+  .memory-text { font-size: 13px; color: var(--slate); line-height: 1.6; }
+  .memory-rating { display: flex; gap: 2px; margin-top: 8px; font-size: 14px; }
+  .memory-delete { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 16px; }
+  .memory-delete:hover { color: var(--red); }
+  .empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--muted);
+  }
+  .empty-state-icon { font-size: 40px; margin-bottom: 1rem; }
+  .empty-state p { font-size: 14px; }
+
+  /* TIPS BANNER */
+  .tip-banner {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 10px 2rem;
+    font-size: 12px;
+    text-align: center;
+    letter-spacing: 0.03em;
+    border-bottom: 1px solid rgba(201,168,76,0.3);
+  }
+  .tip-banner em { color: var(--gold); font-style: normal; }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    font-size: 11px;
+    color: var(--muted);
+    border-top: 1px solid var(--cream);
+    letter-spacing: 0.05em;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    .nav-tab { padding: 0 10px; font-size: 11px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .budget-row { grid-template-columns: 1fr 70px 70px; }
+    .budget-row .budget-num:last-child { display: none; }
+    .edit-toggle { padding: 4px 8px; font-size: 10px; margin-left: 8px; }
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .page.active > * {
+    animation: fadeUp 0.4s ease both;
+  }
+
+  /* ─── EDIT MODE STYLES ─────────────────────────────────────────── */
+  .edit-bar {
+    display: none;
+    background: var(--rust);
+    color: var(--white);
+    padding: 10px 2rem;
+    font-size: 13px;
+    text-align: center;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+  }
+  .edit-bar.show { display: flex; }
+  .edit-bar button {
+    background: var(--white);
+    color: var(--rust);
+    border: none;
+    border-radius: 4px;
+    padding: 5px 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .edit-actions {
+    display: none;
+    gap: 4px;
+    align-items: center;
+    margin-left: auto;
+  }
+  body.editing .edit-actions { display: flex; }
+
+  .edit-btn {
+    background: none;
+    border: 1px solid var(--cream);
+    color: var(--muted);
+    width: 26px;
+    height: 26px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: all 0.15s;
+    padding: 0;
+  }
+  .edit-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .edit-btn.danger:hover { border-color: var(--red); color: var(--red); }
+
+  .add-btn {
+    background: none;
+    border: 1px dashed var(--gold);
+    color: var(--gold);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+    display: none;
+    width: 100%;
+    margin-top: 8px;
+    transition: all 0.15s;
+  }
+  .add-btn:hover { background: rgba(201,168,76,0.1); }
+  body.editing .add-btn { display: block; }
+
+  .stop-card.dragging {
+    opacity: 0.5;
+    transform: scale(0.95);
+  }
+  .stop-card.drag-over {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 2px var(--gold);
+  }
+
+  .drag-handle {
+    display: none;
+    cursor: grab;
+    color: var(--muted);
+    font-size: 16px;
+    padding: 2px;
+    user-select: none;
+  }
+  .drag-handle:active { cursor: grabbing; }
+  body.editing .drag-handle { display: block; }
+
+  .editable-field {
+    border: none;
+    background: none;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    width: 100%;
+    outline: none;
+    padding: 2px 4px;
+    border-radius: 4px;
+    pointer-events: none;
+  }
+  body.editing .editable-field {
+    pointer-events: auto;
+    background: rgba(201,168,76,0.08);
+    border: 1px solid transparent;
+  }
+  body.editing .editable-field:focus {
+    border-color: var(--gold);
+    background: var(--white);
+  }
+
+  /* EDIT MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(26,24,20,0.6);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 1.5rem;
+    max-width: 500px;
+    width: 90%;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.25);
+  }
+  .modal h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    margin-bottom: 1rem;
+  }
+  .modal .form-row { margin-bottom: 12px; }
+  .modal .form-row input, .modal .form-row textarea, .modal .form-row select {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--cream);
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    background: var(--paper);
+    color: var(--ink);
+    outline: none;
+  }
+  .modal .form-row input:focus, .modal .form-row textarea:focus {
+    border-color: var(--gold);
+  }
+  .modal .form-row label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .activity-edit-row {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+  .activity-edit-row input {
+    flex: 1;
+  }
+  .activity-edit-row .edit-btn {
+    flex-shrink: 0;
+  }
+
+  .saving-indicator {
+    display: none;
+    position: fixed;
+    top: 60px;
+    right: 20px;
+    background: var(--ink);
+    color: var(--gold);
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 12px;
+    z-index: 150;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  }
+  .saving-indicator.show { display: block; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">Grand Tour '25</div>
+  <div class="nav-right">
+    <div class="nav-tabs">
+      <button class="nav-tab active" onclick="showPage('overview', this)">Overview</button>
+      <button class="nav-tab" onclick="showPage('budget', this)">Budget</button>
+      <button class="nav-tab" onclick="showPage('packing', this)">Packing</button>
+      <button class="nav-tab" onclick="showPage('journal', this)">Journal</button>
+    </div>
+    <button class="edit-toggle" id="edit-toggle" onclick="toggleEditMode()">Edit</button>
+  </div>
+</nav>
+
+<div class="edit-bar" id="edit-bar">
+  <span>You're in edit mode — changes save for everyone</span>
+  <button onclick="saveContent()">Save Changes</button>
+  <button onclick="toggleEditMode()">Cancel</button>
+</div>
+
+<div class="saving-indicator" id="saving-indicator">Saving...</div>
+
+<!-- OVERVIEW PAGE -->
+<div class="page active" id="page-overview">
+  <div class="hero">
+    <div class="hero-eyebrow" id="hero-eyebrow">Summer 2025 · 8 Countries · 30 Days</div>
+    <h1>The <em>Grand Tour</em></h1>
+    <div class="hero-sub" id="hero-sub"></div>
+    <div class="countdown-row" id="countdown">
+      <div class="countdown-box"><span class="countdown-num" id="cd-days">—</span><div class="countdown-label">Days</div></div>
+      <div class="countdown-sep">:</div>
+      <div class="countdown-box"><span class="countdown-num" id="cd-hours">—</span><div class="countdown-label">Hours</div></div>
+      <div class="countdown-sep">:</div>
+      <div class="countdown-box"><span class="countdown-num" id="cd-mins">—</span><div class="countdown-label">Mins</div></div>
+    </div>
+  </div>
+
+  <div class="tip-banner" id="tip-banner"></div>
+
+  <div class="progress-section">
+    <div class="section-title">The Route</div>
+    <div class="route-scroll" id="route-scroll"></div>
+  </div>
+
+  <div class="route-wrap">
+    <div class="section-title">All Stops</div>
+  </div>
+  <div class="cards-grid" id="cards-grid"></div>
+</div>
+
+<!-- BUDGET PAGE -->
+<div class="page" id="page-budget">
+  <div class="budget-wrap">
+    <div class="section-title" style="margin-top:0.5rem">Budget Breakdown</div>
+    <div class="budget-summary" id="budget-summary"></div>
+    <div class="budget-table">
+      <div class="budget-row header">
+        <div>Destination</div>
+        <div class="budget-num">Days</div>
+        <div class="budget-num">$/day</div>
+        <div class="budget-num">Total</div>
+      </div>
+      <div id="budget-rows"></div>
+    </div>
+    <div class="budget-bar-wrap" style="margin-top:2rem">
+      <div class="section-title">Cost by Category</div>
+      <div id="budget-bars"></div>
+    </div>
+  </div>
+</div>
+
+<!-- PACKING PAGE -->
+<div class="page" id="page-packing">
+  <div class="packing-wrap">
+    <div class="section-title" style="margin-top:0.5rem">Packing List</div>
+    <div class="packing-progress">
+      <div class="packing-pct" id="pack-pct">0%</div>
+      <div>
+        <div style="font-size:13px;font-weight:500;margin-bottom:6px" id="pack-label">0 of 0 items packed</div>
+        <div class="packing-bar-track"><div class="packing-bar-fill" id="pack-bar" style="width:0%"></div></div>
+      </div>
+    </div>
+    <div class="packing-grid" id="packing-grid"></div>
+  </div>
+</div>
+
+<!-- JOURNAL PAGE -->
+<div class="page" id="page-journal">
+  <div class="journal-wrap">
+    <div class="section-title" style="margin-top:0.5rem">Travel Journal</div>
+    <button class="add-memory-btn" onclick="toggleMemoryForm()">+ Add a memory</button>
+    <div class="memory-form" id="memory-form">
+      <div class="form-row">
+        <label>City</label>
+        <select id="mem-city"></select>
+      </div>
+      <div class="form-row">
+        <label>Date</label>
+        <input type="date" id="mem-date">
+      </div>
+      <div class="form-row">
+        <label>What happened?</label>
+        <textarea id="mem-text" placeholder="Write your memory here..."></textarea>
+      </div>
+      <div class="form-row">
+        <label>Vibe rating</label>
+        <select id="mem-rating">
+          <option value="5">&#11088;&#11088;&#11088;&#11088;&#11088; Legendary</option>
+          <option value="4">&#11088;&#11088;&#11088;&#11088; Amazing</option>
+          <option value="3">&#11088;&#11088;&#11088; Good</option>
+          <option value="2">&#11088;&#11088; Meh</option>
+          <option value="1">&#11088; Rough</option>
+        </select>
+      </div>
+      <div class="form-actions">
+        <button class="btn-primary" onclick="saveMemory()">Save memory</button>
+        <button class="btn-secondary" onclick="toggleMemoryForm()">Cancel</button>
+      </div>
+    </div>
+    <div class="memories-list" id="memories-list"></div>
+  </div>
+</div>
+
+<!-- EDIT STOP MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="edit-modal">
+    <h3 id="modal-title">Edit Stop</h3>
+    <div class="form-row">
+      <label>City</label>
+      <input type="text" id="ed-city">
+    </div>
+    <div class="form-row">
+      <label>Country</label>
+      <input type="text" id="ed-country">
+    </div>
+    <div class="form-row">
+      <label>Flag emoji</label>
+      <input type="text" id="ed-flag">
+    </div>
+    <div class="form-row">
+      <label>Days</label>
+      <input type="number" id="ed-days" min="1">
+    </div>
+    <div class="form-row">
+      <label>Cost per day ($)</label>
+      <input type="number" id="ed-cost" min="0">
+    </div>
+    <div class="form-row">
+      <label>Status</label>
+      <select id="ed-status">
+        <option value="upcoming">Upcoming</option>
+        <option value="current">Current</option>
+        <option value="done">Done</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <label>Hostel</label>
+      <input type="text" id="ed-hostel">
+    </div>
+    <div class="form-row">
+      <label>Activities</label>
+      <div id="ed-activities"></div>
+      <button class="add-btn" style="display:block;margin-top:8px" onclick="addActivityField()">+ Add activity</button>
+    </div>
+    <div class="form-actions">
+      <button class="btn-primary" onclick="saveStopEdit()">Done</button>
+      <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<footer>Grand Tour 2025 &nbsp;·&nbsp; Share this with your crew &nbsp;·&nbsp; Built with love & wanderlust</footer>
+
+<script>
+// ─── STATE ───────────────────────────────────────────────────────────────────
+const DEPARTURE = new Date('2025-06-15T08:00:00');
+let siteContent = null;
+let editMode = false;
+let editingStopIndex = -1;
+let dragSrcIndex = null;
+let contentDirty = false;
+
+let checkedActivities = JSON.parse(localStorage.getItem('gt_activities') || '{}');
+let checkedPacking = JSON.parse(localStorage.getItem('gt_packing') || '{}');
+let memories = JSON.parse(localStorage.getItem('gt_memories') || '[]');
+
+function saveLocalState() {
+  localStorage.setItem('gt_activities', JSON.stringify(checkedActivities));
+  localStorage.setItem('gt_packing', JSON.stringify(checkedPacking));
+  localStorage.setItem('gt_memories', JSON.stringify(memories));
+}
+
+// ─── LOAD CONTENT FROM API ──────────────────────────────────────────────────
+async function loadContent() {
+  try {
+    const res = await fetch('/api/content');
+    siteContent = await res.json();
+  } catch (e) {
+    console.error('Failed to load content, using defaults');
+    siteContent = null;
+  }
+  renderAll();
+}
+
+function renderAll() {
+  if (!siteContent) return;
+  const stops = siteContent.stops;
+  // Update hero subtitle
+  document.getElementById('hero-sub').textContent = stops.map(s => s.city.split(' ')[0]).join(' \u2192 ');
+  // Update tip banner
+  document.getElementById('tip-banner').innerHTML = '<em>Pro tip:</em> ' + (siteContent.tipBanner || '');
+  // Update hero eyebrow
+  if (siteContent.heroEyebrow) {
+    document.getElementById('hero-eyebrow').textContent = siteContent.heroEyebrow;
+  }
+  // Update journal city dropdown
+  const memCity = document.getElementById('mem-city');
+  memCity.innerHTML = stops.map(s => `<option>${s.city}</option>`).join('');
+
+  renderRoute();
+  renderCards();
+  renderBudget();
+  renderPacking();
+  renderMemories();
+}
+
+// ─── COUNTDOWN ──────────────────────────────────────────────────────────────
+function updateCountdown() {
+  const now = new Date();
+  const diff = DEPARTURE - now;
+  if (diff <= 0) {
+    document.getElementById('countdown').innerHTML = '<div style="color:var(--gold);font-family:Playfair Display,serif;font-style:italic;font-size:22px">You\'re on the road!</div>';
+    return;
+  }
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor((diff % 86400000) / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  document.getElementById('cd-days').textContent = d;
+  document.getElementById('cd-hours').textContent = String(h).padStart(2,'0');
+  document.getElementById('cd-mins').textContent = String(m).padStart(2,'0');
+}
+updateCountdown();
+setInterval(updateCountdown, 10000);
+
+// ─── ROUTE DOTS ─────────────────────────────────────────────────────────────
+function renderRoute() {
+  const stops = siteContent.stops;
+  const el = document.getElementById('route-scroll');
+  el.innerHTML = stops.map((s, i) => `
+    <div class="route-stop" onclick="document.getElementById('card-${i}').scrollIntoView({behavior:'smooth',block:'center'})">
+      <div class="route-dot ${s.status === 'current' ? 'current' : s.status === 'done' ? 'done' : ''}">${s.flag}</div>
+      <div class="route-city">${s.city.split(' ')[0]}</div>
+      <div class="route-days">${s.days}d</div>
+    </div>
+  `).join('');
+}
+
+// ─── STOP CARDS ─────────────────────────────────────────────────────────────
+function renderCards() {
+  const stops = siteContent.stops;
+  const el = document.getElementById('cards-grid');
+  el.innerHTML = stops.map((s, si) => {
+    const statusLabel = s.status === 'current' ? 'Current' : s.status === 'done' ? 'Done \u2713' : 'Upcoming';
+    const statusClass = `status-${s.status}`;
+    const activities = s.activities.map((a, ai) => {
+      const key = `${si}-${ai}`;
+      const checked = checkedActivities[key] ? 'checked' : '';
+      return `<label class="check-activity">
+        <input type="checkbox" ${checked} onchange="toggleActivity('${key}', this.checked)">
+        <span>${escHtml(a)}</span>
+      </label>`;
+    }).join('');
+    return `
+      <div class="stop-card ${s.status === 'current' ? 'current-card' : ''}" id="card-${si}"
+           draggable="${editMode}" data-index="${si}"
+           ondragstart="onDragStart(event)" ondragover="onDragOver(event)" ondragenter="onDragEnter(event)"
+           ondragleave="onDragLeave(event)" ondrop="onDrop(event)" ondragend="onDragEnd(event)">
+        <div class="card-header">
+          <div style="display:flex;gap:8px;align-items:flex-start">
+            <span class="drag-handle" title="Drag to reorder">\u2261</span>
+            <div>
+              <div style="font-size:22px;margin-bottom:4px">${s.flag}</div>
+              <div class="card-city">${escHtml(s.city)}</div>
+              <div class="card-country">${escHtml(s.country)}</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px">
+            <span class="card-status ${statusClass}">${statusLabel}</span>
+            <div class="edit-actions">
+              <button class="edit-btn" onclick="openEditStop(${si})" title="Edit">&#9998;</button>
+              <button class="edit-btn" onclick="moveStop(${si},-1)" title="Move up">\u2191</button>
+              <button class="edit-btn" onclick="moveStop(${si},1)" title="Move down">\u2193</button>
+              <button class="edit-btn danger" onclick="removeStop(${si})" title="Remove">\u00d7</button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-meta">
+            <span>\ud83d\udcc5 ${s.days} days</span>
+            <span>\ud83d\udcb0 ~$${s.days * s.costPerDay}</span>
+          </div>
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:8px">Activities</div>
+          ${activities}
+          <div class="stay-pill">\ud83d\udecf ${escHtml(s.hostel)}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Add "Add Stop" button at the end in edit mode
+  if (editMode) {
+    el.innerHTML += `<div style="display:flex;align-items:center;justify-content:center;min-height:200px">
+      <button class="add-btn" style="display:block;width:auto;padding:16px 32px;font-size:14px" onclick="addNewStop()">+ Add New Stop</button>
+    </div>`;
+  }
+}
+
+function escHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function toggleActivity(key, val) {
+  checkedActivities[key] = val;
+  saveLocalState();
+}
+
+// ─── DRAG & DROP ────────────────────────────────────────────────────────────
+function onDragStart(e) {
+  if (!editMode) return;
+  const card = e.target.closest('.stop-card');
+  dragSrcIndex = parseInt(card.dataset.index);
+  card.classList.add('dragging');
+  e.dataTransfer.effectAllowed = 'move';
+}
+
+function onDragOver(e) {
+  if (!editMode) return;
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+}
+
+function onDragEnter(e) {
+  if (!editMode) return;
+  const card = e.target.closest('.stop-card');
+  if (card) card.classList.add('drag-over');
+}
+
+function onDragLeave(e) {
+  if (!editMode) return;
+  const card = e.target.closest('.stop-card');
+  if (card) card.classList.remove('drag-over');
+}
+
+function onDrop(e) {
+  if (!editMode) return;
+  e.preventDefault();
+  const card = e.target.closest('.stop-card');
+  if (!card) return;
+  card.classList.remove('drag-over');
+  const targetIndex = parseInt(card.dataset.index);
+  if (dragSrcIndex !== null && dragSrcIndex !== targetIndex) {
+    const stops = siteContent.stops;
+    const [moved] = stops.splice(dragSrcIndex, 1);
+    stops.splice(targetIndex, 0, moved);
+    contentDirty = true;
+    renderAll();
+  }
+}
+
+function onDragEnd(e) {
+  document.querySelectorAll('.stop-card').forEach(c => {
+    c.classList.remove('dragging', 'drag-over');
+  });
+  dragSrcIndex = null;
+}
+
+// ─── EDIT MODE ──────────────────────────────────────────────────────────────
+function toggleEditMode() {
+  editMode = !editMode;
+  document.body.classList.toggle('editing', editMode);
+  document.getElementById('edit-bar').classList.toggle('show', editMode);
+  document.getElementById('edit-toggle').classList.toggle('editing', editMode);
+  document.getElementById('edit-toggle').textContent = editMode ? 'Editing' : 'Edit';
+  if (!editMode && contentDirty) {
+    contentDirty = false;
+    // Revert — reload from server
+    loadContent();
+  }
+  renderAll();
+}
+
+async function saveContent() {
+  const indicator = document.getElementById('saving-indicator');
+  indicator.classList.add('show');
+  try {
+    await fetch('/api/content', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(siteContent)
+    });
+    contentDirty = false;
+    editMode = false;
+    document.body.classList.remove('editing');
+    document.getElementById('edit-bar').classList.remove('show');
+    document.getElementById('edit-toggle').classList.remove('editing');
+    document.getElementById('edit-toggle').textContent = 'Edit';
+    renderAll();
+  } catch (e) {
+    alert('Failed to save. Please try again.');
+  }
+  indicator.classList.remove('show');
+}
+
+// ─── STOP EDITING ───────────────────────────────────────────────────────────
+function moveStop(index, direction) {
+  const stops = siteContent.stops;
+  const newIndex = index + direction;
+  if (newIndex < 0 || newIndex >= stops.length) return;
+  [stops[index], stops[newIndex]] = [stops[newIndex], stops[index]];
+  contentDirty = true;
+  renderAll();
+}
+
+function removeStop(index) {
+  if (!confirm('Remove ' + siteContent.stops[index].city + '?')) return;
+  siteContent.stops.splice(index, 1);
+  contentDirty = true;
+  renderAll();
+}
+
+function addNewStop() {
+  siteContent.stops.push({
+    city: "New City",
+    country: "Country",
+    flag: "\ud83c\udff3\ufe0f",
+    days: 3,
+    costPerDay: 100,
+    status: "upcoming",
+    hostel: "Hostel Name",
+    activities: ["Activity 1"]
+  });
+  contentDirty = true;
+  renderAll();
+  // Open edit modal for the new stop
+  openEditStop(siteContent.stops.length - 1);
+}
+
+function openEditStop(index) {
+  editingStopIndex = index;
+  const s = siteContent.stops[index];
+  document.getElementById('modal-title').textContent = 'Edit: ' + s.city;
+  document.getElementById('ed-city').value = s.city;
+  document.getElementById('ed-country').value = s.country;
+  document.getElementById('ed-flag').value = s.flag;
+  document.getElementById('ed-days').value = s.days;
+  document.getElementById('ed-cost').value = s.costPerDay;
+  document.getElementById('ed-status').value = s.status;
+  document.getElementById('ed-hostel').value = s.hostel;
+  renderActivityFields(s.activities);
+  document.getElementById('modal-overlay').classList.add('show');
+}
+
+function renderActivityFields(activities) {
+  const container = document.getElementById('ed-activities');
+  container.innerHTML = activities.map((a, i) => `
+    <div class="activity-edit-row">
+      <input type="text" value="${escAttr(a)}" class="act-input" data-index="${i}">
+      <button class="edit-btn" onclick="moveActivityField(${i},-1)" title="Move up">\u2191</button>
+      <button class="edit-btn" onclick="moveActivityField(${i},1)" title="Move down">\u2193</button>
+      <button class="edit-btn danger" onclick="removeActivityField(${i})" title="Remove">\u00d7</button>
+    </div>
+  `).join('');
+}
+
+function escAttr(str) {
+  return str.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function getActivityValues() {
+  return Array.from(document.querySelectorAll('.act-input')).map(el => el.value).filter(v => v.trim());
+}
+
+function addActivityField() {
+  const vals = getActivityValues();
+  vals.push('');
+  renderActivityFields(vals);
+  const inputs = document.querySelectorAll('.act-input');
+  inputs[inputs.length - 1].focus();
+}
+
+function removeActivityField(index) {
+  const vals = getActivityValues();
+  vals.splice(index, 1);
+  renderActivityFields(vals);
+}
+
+function moveActivityField(index, direction) {
+  const vals = Array.from(document.querySelectorAll('.act-input')).map(el => el.value);
+  const newIndex = index + direction;
+  if (newIndex < 0 || newIndex >= vals.length) return;
+  [vals[index], vals[newIndex]] = [vals[newIndex], vals[index]];
+  renderActivityFields(vals);
+}
+
+function saveStopEdit() {
+  const s = siteContent.stops[editingStopIndex];
+  s.city = document.getElementById('ed-city').value.trim() || s.city;
+  s.country = document.getElementById('ed-country').value.trim() || s.country;
+  s.flag = document.getElementById('ed-flag').value.trim() || s.flag;
+  s.days = parseInt(document.getElementById('ed-days').value) || s.days;
+  s.costPerDay = parseInt(document.getElementById('ed-cost').value) || s.costPerDay;
+  s.status = document.getElementById('ed-status').value;
+  s.hostel = document.getElementById('ed-hostel').value.trim() || s.hostel;
+  s.activities = getActivityValues();
+  contentDirty = true;
+  closeModal();
+  renderAll();
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('show');
+  editingStopIndex = -1;
+}
+
+// ─── BUDGET ─────────────────────────────────────────────────────────────────
+function renderBudget() {
+  const stops = siteContent.stops;
+  const budgetCategories = siteContent.budgetCategories;
+  const totalAcc = stops.reduce((s,x) => s + x.days * x.costPerDay, 0);
+  const totalDays = stops.reduce((s,x) => s + x.days, 0);
+  const grandTotal = budgetCategories.reduce((s,x) => s + x.amount, 0);
+
+  document.getElementById('budget-summary').innerHTML = `
+    <div class="budget-stat"><div class="budget-stat-label">Grand Total</div><div class="budget-stat-value">$${grandTotal.toLocaleString()}</div><div class="budget-stat-sub">all-in estimate</div></div>
+    <div class="budget-stat"><div class="budget-stat-label">Total Days</div><div class="budget-stat-value">${totalDays}</div><div class="budget-stat-sub">on the road</div></div>
+    <div class="budget-stat"><div class="budget-stat-label">Per Day</div><div class="budget-stat-value">$${Math.round(grandTotal/totalDays)}</div><div class="budget-stat-sub">all categories</div></div>
+    <div class="budget-stat"><div class="budget-stat-label">Countries</div><div class="budget-stat-value">${new Set(stops.map(s=>s.country)).size}</div><div class="budget-stat-sub">${[...new Set(stops.map(s=>s.country))].map(c=>c.slice(0,2).toUpperCase()).join(' \u00b7 ')}</div></div>
+  `;
+
+  document.getElementById('budget-rows').innerHTML = stops.map(s => `
+    <div class="budget-row">
+      <div><div class="budget-city-name">${s.flag} ${escHtml(s.city)}</div><div class="budget-city-days">${escHtml(s.country)}</div></div>
+      <div class="budget-num">${s.days}</div>
+      <div class="budget-num">$${s.costPerDay}</div>
+      <div class="budget-num" style="font-weight:500">$${s.days * s.costPerDay}</div>
+    </div>
+  `).join('') + `
+    <div class="budget-row" style="background:var(--cream);font-weight:500">
+      <div>Accommodation subtotal</div>
+      <div class="budget-num">${totalDays}</div>
+      <div class="budget-num">\u2014</div>
+      <div class="budget-num" style="font-weight:500">$${totalAcc}</div>
+    </div>
+  `;
+
+  const maxAmt = Math.max(...budgetCategories.map(c => c.amount));
+  document.getElementById('budget-bars').innerHTML = budgetCategories.map(c => `
+    <div class="budget-bar-item">
+      <div class="budget-bar-label">${escHtml(c.label)}</div>
+      <div class="budget-bar-track"><div class="budget-bar-fill" style="width:${Math.round(c.amount/maxAmt*100)}%"></div></div>
+      <div class="budget-bar-val">$${c.amount.toLocaleString()}</div>
+    </div>
+  `).join('');
+}
+
+// ─── PACKING ────────────────────────────────────────────────────────────────
+function renderPacking() {
+  const packingList = siteContent.packingList;
+  const grid = document.getElementById('packing-grid');
+  let allItems = 0, checkedItems = 0;
+  grid.innerHTML = Object.entries(packingList).map(([cat, items]) => {
+    const catItems = items.map((item, ii) => {
+      const key = `${cat}-${ii}`;
+      const checked = checkedPacking[key];
+      allItems++;
+      if (checked) checkedItems++;
+      return `<div class="pack-item">
+        <input type="checkbox" id="pk-${key.replace(/\s/g,'-')}" ${checked ? 'checked' : ''} onchange="togglePack('${escAttr(key)}', this.checked)">
+        <label for="pk-${key.replace(/\s/g,'-')}">${escHtml(item)}</label>
+      </div>`;
+    }).join('');
+    return `<div class="packing-cat">
+      <div class="packing-cat-title">${cat}</div>
+      ${catItems}
+    </div>`;
+  }).join('');
+  updatePackProgress(checkedItems, allItems);
+}
+
+function updatePackProgress(checked, total) {
+  const pct = total ? Math.round(checked / total * 100) : 0;
+  document.getElementById('pack-pct').textContent = pct + '%';
+  document.getElementById('pack-label').textContent = `${checked} of ${total} items packed`;
+  document.getElementById('pack-bar').style.width = pct + '%';
+}
+
+function togglePack(key, val) {
+  checkedPacking[key] = val;
+  saveLocalState();
+  if (!siteContent) return;
+  let all = 0, ch = 0;
+  Object.keys(siteContent.packingList).forEach(cat => {
+    siteContent.packingList[cat].forEach((_, ii) => {
+      all++;
+      if (checkedPacking[`${cat}-${ii}`]) ch++;
+    });
+  });
+  updatePackProgress(ch, all);
+}
+
+// ─── JOURNAL ────────────────────────────────────────────────────────────────
+function toggleMemoryForm() {
+  document.getElementById('memory-form').classList.toggle('show');
+}
+
+function saveMemory() {
+  const city = document.getElementById('mem-city').value;
+  const date = document.getElementById('mem-date').value;
+  const text = document.getElementById('mem-text').value.trim();
+  const rating = parseInt(document.getElementById('mem-rating').value);
+  if (!text) return;
+  memories.unshift({ city, date, text, rating, id: Date.now() });
+  saveLocalState();
+  document.getElementById('mem-text').value = '';
+  document.getElementById('memory-form').classList.remove('show');
+  renderMemories();
+}
+
+function deleteMemory(id) {
+  memories = memories.filter(m => m.id !== id);
+  saveLocalState();
+  renderMemories();
+}
+
+function renderMemories() {
+  const el = document.getElementById('memories-list');
+  if (!memories.length) {
+    el.innerHTML = `<div class="empty-state"><div class="empty-state-icon">\u270d\ufe0f</div><p>No memories yet. Start writing once you're on the road!</p></div>`;
+    return;
+  }
+  const stars = n => '\u2b50'.repeat(n);
+  el.innerHTML = memories.map(m => `
+    <div class="memory-card">
+      <div class="memory-top">
+        <div>
+          <div class="memory-city">${escHtml(m.city)}</div>
+          <div class="memory-date">${m.date || 'No date'}</div>
+        </div>
+        <button class="memory-delete" onclick="deleteMemory(${m.id})">\u00d7</button>
+      </div>
+      <div class="memory-text">${escHtml(m.text)}</div>
+      <div class="memory-rating">${stars(m.rating)}</div>
+    </div>
+  `).join('');
+}
+
+// ─── NAV ────────────────────────────────────────────────────────────────────
+function showPage(name, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+
+// ─── INIT ───────────────────────────────────────────────────────────────────
+loadContent();
+</script>
+</body>
+</html>
